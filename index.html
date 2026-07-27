@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    height: 100vh;
+    overflow: hidden;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+/*--website scrolling--*/
+  html, body {
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto; 
+}
+
+  .video-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: -1;
+  }
+
+  .video-background video {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    opacity: 0.3;
+    transform: translate(-50%, -50%);
+    object-fit: cover; /* fills the screen without distortion */
+  }
+
+  /* Optional dark overlay to make text readable on top of the video */
+  .overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4);
+    z-index: -1;
+  }
+
+
+</style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Expression of Interest (EOI) Portal</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="C:\Users\HP\Downloads\New EOI\styles.css">
+</head>
+<body> 
+<!--<img src="link" alt="logo">-->
+  <div class="video-background">
+    <video autoplay muted loop playsinline>
+      <source src="C:\Users\HP\Desktop\New EOI Final\white bg without logo.mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+    <!-- <div class="header-status" id="headerStatus"></div>
+    <img src="C:\Users\HP\Downloads\New EOI\tngov-logo.png" alt="tngov Logo" class="header-logo">
+    <img src="C:\Users\HP\Downloads\New EOI\tnskill-logo.png" alt="tnskills Logo" class="header-logo">
+    <img src="C:\Users\HP\Downloads\New EOI\Vetri Nichayam Logo.jpg" alt="vetri Nichyam Logo" class="header-logo">
+  </div> -->
+      <span class="brand-seal">EOI</span>
+      <div class="brand-text">
+        <span class="brand-title">Expression of Interest Portal 2026</span>
+        <span class="brand-sub">Empanelment of Training &amp; Skilling Partners</span>
+      </div>
+    </div>
+     
+    <div class="header-status" id="headerStatus"></div>
+    <img src="C:\Users\HP\Downloads\New EOI\complete-logo.png" alt="complete logo" class="header-logo">
+    <!-- <img src="C:\Users\HP\Downloads\New EOI\tngov-logo.png" alt="tngov Logo" class="header-logo">
+    <img src="C:\Users\HP\Downloads\New EOI\tnskill-logo.png" alt="tnskills Logo" class="header-logo">
+    <img src="C:\Users\HP\Downloads\New EOI\Vetri Nichayam Logo.jpg" alt="vetri Nichyam Logo" class="header-logo"> -->
+  </div>
+  
+  <!-- <div class="progress-rail"><div class="progress-fill" id="progressFill"></div></div> -->
+</header>
+
+<main id="app">
+  <!-- SCREEN 1: Category selection -->
+  <section class="screen" id="screen-category">
+     <div class="container  my-section animate__animated animate__backInDown">
+    <div class="screen-inner">
+      <p class="eyebrow">Step 1 · Applicant type</p>
+      <h1 class="screen-title">Which of these describes your organisation?</h1>
+      <p class="screen-lede">Pick the category that matches your entity. The document dossier and the exact fields you must fill in are assembled from the official requirement register for that category — nothing more, nothing less.</p>
+      <div class="category-grid" id="categoryGrid"></div>
+    </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 2: Sub-category selection -->
+  <section class="screen is-hidden" id="screen-subcategory">
+    
+    
+    <div class="screen-inner">
+      <button class="link-back" id="backToCategory">← Change organisation type</button>
+      <p class="eyebrow" id="subEyebrow">Step 2 · Specific type</p>
+      <h1 class="screen-title" id="subTitle"></h1>
+      <p class="screen-lede">Several sub-types exist under this category, each with its own dossier. Choose the one that applies to you.</p>
+      <div class="container  my-section animate__animated animate__bounce"></div>
+      <div class="category-grid" id="subcategoryGrid"></div>
+    </div>
+  </div>
+  </section>
+
+  <!-- SCREEN 3: Dynamic EOI form -->
+  <section class="screen is-hidden" id="screen-form">
+    <div class="form-layout">
+
+      <aside class="dossier-nav" id="dossierNav">
+        <button class="link-back" id="backToPrevious">← Back</button>
+        <h2 class="nav-heading" id="navCategoryName"></h2>
+        <p class="nav-sub" id="navSubName"></p>
+        <div class="nav-counter" id="navCounter"></div>
+        <ol class="nav-list" id="navList"></ol>
+      </aside>
+
+      <div class="form-main">
+        <div class="form-intro">
+          <p class="eyebrow">Step 3 · Dossier &amp; declarations</p>
+          <h1 class="screen-title" id="formTitle">EOI Requirements</h1>
+          <p class="screen-lede">Every item below comes straight from the requirement register. Items marked <span class="tag tag-mandatory">Mandatory</span> must be completed before you can submit; <span class="tag tag-optional">Optional</span> items strengthen your application where they apply to you.</p>
+        </div>
+
+        <form id="eoiForm"></form>
+
+        <div class="submit-bar">
+          <div class="submit-summary" id="submitSummary"></div>
+          <div class="submit-actions">
+            <button type="button" class="btn btn-ghost" id="saveDraftBtn">Save draft (.json)</button>
+            <button type="submit" form="eoiForm" class="btn btn-primary" id="submitBtn">Review &amp; Submit EOI</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SCREEN 4: Review / confirmation -->
+  <section class="screen is-hidden" id="screen-review">
+    <div class="screen-inner screen-inner-narrow">
+      <div class="review-seal">✓</div>
+      <h1 class="screen-title">Dossier compiled</h1>
+      <p class="screen-lede" id="reviewLede">All mandatory items for this category have been completed.</p>
+      <div class="review-card">
+        <h3>What happens with this data</h3>
+        <p>This front end has no live backend attached yet. Use <code>submitEOI(payload)</code> in <code>app.js</code> to POST the JSON below to your API once it's ready. Until then, submissions are saved to your browser's <code>localStorage</code> so you can test the flow — open the console and call <code>listMockSubmissions()</code> or <code>clearMockSubmissions()</code> any time.</p>
+        <p id="mockCount" class="mock-count"></p>
+      </div>
+      <pre class="json-preview" id="jsonPreview"></pre>
+      <div class="submit-actions">
+        <button class="btn btn-ghost" id="editAgainBtn">← Edit answers</button>
+        <button class="btn btn-primary" id="downloadJsonBtn">Download submission.json</button>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="eoi-data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
